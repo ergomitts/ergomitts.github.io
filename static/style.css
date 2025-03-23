@@ -1,0 +1,51 @@
+/* Center the body */
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #282c34; /* Background color */
+    color: white; /* Text color */
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+}
+
+/* Container that clips the text */
+.text-container {
+    width: 100%;
+    height: 50vh; /* Half the screen */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Clips text when it's below the viewport */
+    position: absolute;
+    top: 25vh; /* Center it vertically */
+}
+
+/* Huge text */
+#center-text {
+    font-size: 10rem; /* Huge font */
+    font-weight: bold;
+    opacity: 0; /* Initially hidden */
+    transform: translateY(200px); /* Start below */
+    animation: fadeMoveUp 1.5s ease-out forwards;
+}
+
+/* Animation: Move Up & Fade In */
+@keyframes fadeMoveUp {
+    0% {
+        opacity: 0;
+        transform: translateY(200px); /* Start below the clip */
+    }
+    50% {
+        opacity: 0.4;
+        transform: translateY(-20px); /* Move to center */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0); /* Settle in center */
+    }
+}
+
