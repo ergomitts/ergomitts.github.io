@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<head>
+    <title>Blood Splatter Effect</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+        }
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="backgroundCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById("backgroundCanvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+
+        class BloodParticle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 5 + 5; // Random size between 5 and 10
+                this.speedX = (Math.random() - 0.5) * 10; // Random horizontal speed
+                this.speedY = (Math.random() - 0.5) * 10; // Random vertical speed
+                this.color = "rgba(200, 0, 0, 1)"; // Blood red color with transparency
+                this.life = 0; // Particle lifetime counter
+                this.maxLife = Math.random() * 30 + 30; // Particle lifetime between 30 and 60 frames
+                this.gravity = -5;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY + this.gravity;
+                this.gravity += 0.5;
+                this.life++;
+
+                // Fade out the particle as it ages
+                let fade = this.life / this.maxLife; // Calculate fade ratio
+                let opacity = 1 - fade; // Reduce opacity over time
+                this.color = `rgba(200, 0, 0, ${opacity})`; // Update color with fading opacity
+
+                this.size *= 0.98; // Slowly shrink the particle
+
+                if (this.life > this.maxLife) {
+                    return true; // Mark the particle for removal
+                }
+
+                return false;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.closePath();
+            }
+        }
+
+        function spawnBloodSplatter(x, y) {
+            for (let i = 0; i < 30; i++) {
+                particles.push(new BloodParticle(x, y));
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Update and draw particles
+            particles = particles.filter(particle => !particle.update());
+            particles.forEach(particle => particle.draw());
+
+            requestAnimationFrame(animate);
+        }
+
+        canvas.addEventListener("click", (e) => {
+            // Spawn a blood splatter where the user clicks
+            spawnBloodSplatter(e.x, e.y);
+        });
+
+        window.addEventListener("resize", () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        animate();
+    </script>
+</body>
+</html>
