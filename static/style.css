@@ -1,51 +1,27 @@
-/* Center the body */
+/* Full-screen background */
 body {
     margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #282c34; /* Background color */
-    color: white; /* Text color */
-    font-family: Arial, sans-serif;
     overflow: hidden;
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
 }
 
-/* Container that clips the text */
-.text-container {
-    width: 100%;
-    height: 50vh; /* Half the screen */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Clips text when it's below the viewport */
-    position: absolute;
-    top: 25vh; /* Center it vertically */
+/* PlayStation Blue Gradient */
+#backgroundCanvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1; /* Keep it behind content */
+    background: radial-gradient(circle, #0f173a, #060c22);
 }
 
-/* Huge text */
-#center-text {
-    font-size: 10rem; /* Huge font */
-    font-weight: bold;
-    opacity: 0; /* Initially hidden */
-    transform: translateY(200px); /* Start below */
-    animation: fadeMoveUp 1.5s ease-out forwards;
+/* Centered Content */
+.content {
+    position: relative;
+    z-index: 10;
+    margin-top: 40vh;
+    text-shadow: 0px 0px 40px rgb(255, 0, 0);
 }
-
-/* Animation: Move Up & Fade In */
-@keyframes fadeMoveUp {
-    0% {
-        opacity: 0;
-        transform: translateY(200px); /* Start below the clip */
-    }
-    50% {
-        opacity: 0.4;
-        transform: translateY(-20px); /* Move to center */
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0); /* Settle in center */
-    }
-}
-
